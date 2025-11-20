@@ -34,13 +34,13 @@ export default function Hero() {
           >
             <a
               href="#mulai"
-              className="inline-flex items-center justify-center rounded-xl bg-brand px-5 py-3 text-white shadow-md hover:bg-brand-600 transition-colors"
+              className="btn btn-primary"
             >
               Mulai Permohonan
             </a>
             <a
               href="#layanan"
-              className="inline-flex items-center justify-center rounded-xl border border-orange-200 bg-white px-5 py-3 text-brand hover:bg-orange-50 transition-colors"
+              className="btn btn-outline"
             >
               Lihat Layanan
             </a>
@@ -98,4 +98,3 @@ function AcademicBadge() {
     </div>
   );
 }
-

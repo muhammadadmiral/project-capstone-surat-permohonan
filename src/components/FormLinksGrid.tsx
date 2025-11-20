@@ -29,10 +29,10 @@ export default function FormLinksGrid({ links }: FormLinksGridProps) {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.2 }}
-      className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+      className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 items-stretch content-stretch"
     >
       {links.map((itemLink) => (
-        <motion.div key={itemLink.href} variants={item}>
+        <motion.div key={itemLink.href} variants={item} className="h-full">
           <FormLinkButton href={itemLink.href} label={itemLink.label} />
         </motion.div>
       ))}
