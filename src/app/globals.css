@@ -3,11 +3,15 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --brand: #f97316; /* orange-500 */
+  --brand-600: #ea580c; /* orange-600 */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-brand: var(--brand);
+  --color-brand-600: var(--brand-600);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -23,4 +27,17 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Soft academic backdrop pattern */
+.academic-pattern {
+  background-image:
+    radial-gradient(1000px 400px at 80% -10%, rgba(249, 115, 22, 0.08), transparent 50%),
+    radial-gradient(900px 300px at -10% -20%, rgba(234, 88, 12, 0.06), transparent 50%),
+    linear-gradient(180deg, rgba(249, 115, 22, 0.04), transparent 15%);
+}
+
+/* Card elevation */
+.card {
+  @apply rounded-2xl bg-white shadow-sm ring-1 ring-black/5;
 }
