@@ -24,7 +24,6 @@ export default function FormLinksGrid({ links }: FormLinksGridProps) {
 
   return (
     <motion.section
-      id="layanan"
       variants={container}
       initial="hidden"
       whileInView="show"

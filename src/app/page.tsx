@@ -1,7 +1,8 @@
-import FormLinksGrid from "@/components/FormLinksGrid";
 import QuickStartForm from "@/components/QuickStartForm";
 import Hero from "@/components/Hero";
-import { formLinks } from "@/data/formLinks";
+import Steps from "@/components/Steps";
+import ServicesSection from "@/components/ServicesSection";
+import FAQ from "@/components/FAQ";
 
 export default function Home() {
   return (
@@ -23,15 +24,11 @@ export default function Home() {
           </section>
         </div>
 
-        <section className="space-y-3">
-          <h2 className="text-xl md:text-2xl font-semibold text-gray-900">
-            Pilih Layanan
-          </h2>
-          <p className="text-sm text-gray-600">
-            Silakan pilih layanan yang Anda butuhkan.
-          </p>
-          <FormLinksGrid links={formLinks} />
-        </section>
+        <Steps />
+
+        <ServicesSection />
+
+        <FAQ />
       </div>
     </main>
   );

@@ -60,7 +60,7 @@ export default function QuickStartForm() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.4 }}
       transition={{ duration: 0.5 }}
-      className="card p-6 md:p-8"
+      className="card p-6 md:p-8 scroll-mt-24"
     >
       <h2 className="text-xl md:text-2xl font-semibold text-gray-900">
         Mulai Permohonan Cepat
