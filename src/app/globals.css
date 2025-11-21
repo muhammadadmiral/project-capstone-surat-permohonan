@@ -3,8 +3,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --brand: #f97316; /* orange-500 */
-  --brand-600: #ea580c; /* orange-600 */
+  --brand: #FF8C00; /* orange-500 */
+  --brand-600: #C77005; /* orange-600 */
 }
 
 @theme inline {
@@ -40,4 +40,24 @@ body {
 /* Card elevation */
 .card {
   @apply rounded-2xl bg-white shadow-sm ring-1 ring-black/5;
+}
+
+/* Unified button styles */
+.btn {
+  @apply inline-flex items-center justify-center rounded-xl px-6 py-6 text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400;
+}
+
+.btn-full { @apply w-full; }
+
+.btn-primary {
+  @apply bg-brand text-white shadow-md hover:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-60;
+}
+
+.btn-outline {
+  @apply border border-orange-200 bg-white text-brand hover:bg-orange-50;
+}
+
+/* Header navigation link */
+.nav-link {
+  @apply rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-orange-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-300;
 }

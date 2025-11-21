@@ -9,9 +9,9 @@ export default function FormLinkButton({ href, label }: FormLinkButtonProps) {
   return (
     <Link
       href={href}
-      className="block w-full rounded-xl bg-brand px-5 py-6 text-white text-center shadow-md transition-transform duration-200 hover:scale-[1.02] hover:bg-brand-600 focus-visible:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 active:scale-[0.99]"
+      className="btn btn-primary btn-full h-full min-h-[84px] md:min-h-[92px] lg:min-h-[96px] text-center transition-transform duration-200 hover:scale-[1.02] active:scale-[0.99]"
     >
-      <span className="font-medium inline-flex items-center justify-center gap-2">
+      <span className="font-medium inline-flex items-center justify-center gap-2 whitespace-normal break-words leading-snug">
         {label}
         <svg
           xmlns="http://www.w3.org/2000/svg"

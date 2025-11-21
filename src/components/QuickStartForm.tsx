@@ -60,7 +60,7 @@ export default function QuickStartForm() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.4 }}
       transition={{ duration: 0.5 }}
-      className="card p-6 md:p-8"
+      className="card p-6 md:p-8 scroll-mt-24"
     >
       <h2 className="text-xl md:text-2xl font-semibold text-gray-900">
         Mulai Permohonan Cepat
@@ -151,7 +151,7 @@ export default function QuickStartForm() {
           <button
             type="submit"
             disabled={!valid}
-            className="inline-flex w-full items-center justify-center rounded-xl bg-brand px-5 py-3 text-white shadow-md transition-colors hover:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-60"
+            className="btn btn-primary btn-full"
           >
             Lanjutkan
           </button>
@@ -160,4 +160,3 @@ export default function QuickStartForm() {
     </motion.section>
   );
 }
-
