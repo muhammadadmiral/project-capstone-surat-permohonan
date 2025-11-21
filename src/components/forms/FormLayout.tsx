@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import type { PropsWithChildren } from "react";
 
@@ -22,9 +23,19 @@ export default function FormLayout({ title, description, children }: FormLayoutP
           Kembali ke Beranda
         </Link>
 
-        <div className="rounded-2xl bg-white p-6 md:p-8 shadow-lg ring-1 ring-black/5">
-          <header className="space-y-2 mb-4">
-            <p className="text-xs font-semibold uppercase tracking-wide text-orange-700">Formulir Persuratan</p>
+        <div className="rounded-2xl bg-white/95 p-6 md:p-8 shadow-xl ring-1 ring-black/5">
+          <div className="flex flex-col gap-3 rounded-xl border border-orange-100 bg-orange-50/70 p-4 md:flex-row md:items-center md:gap-4">
+            <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border border-orange-200 bg-white shadow-sm">
+              <Image src="/images/logo-upnvj.png" alt="Logo UPN Veteran Jakarta" fill className="object-contain p-1.5" />
+            </div>
+            <div className="space-y-1">
+              <p className="text-xs font-semibold uppercase tracking-wide text-orange-700">Formulir Persuratan</p>
+              <div className="text-sm font-semibold text-gray-900">Fakultas Ilmu Komputer - UPN Veteran Jakarta</div>
+              <p className="text-xs text-orange-900/80">Lengkapi data berikut dengan benar untuk mempercepat verifikasi.</p>
+            </div>
+          </div>
+
+          <header className="space-y-2 mt-6 mb-4">
             <h1 className="text-2xl md:text-3xl font-semibold text-gray-900">{title}</h1>
             <p className="text-sm text-gray-600">{description}</p>
           </header>
