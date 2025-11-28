@@ -25,6 +25,7 @@ export default function Header() {
             <a href="#layanan" className="nav-link">Layanan</a>
             <a href="#faq" className="nav-link">FAQ</a>
             <a href="#kontak" className="nav-link">Kontak</a>
+            <a href="/login" className="nav-link">Admin</a>
           </nav>
         </div>
       </div>

@@ -6,12 +6,18 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "prisma:generate": "prisma generate"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@prisma/client": "7.0.1",
+    "bcryptjs": "^2.4.3",
     "framer-motion": "^12.23.24",
+    "jose": "^5.9.6",
     "next": "16.0.3",
+    "pdfkit": "^0.15.2",
+    "prisma": "7.0.1",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-hook-form": "^7.66.1",
