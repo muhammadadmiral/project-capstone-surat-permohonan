@@ -25,7 +25,12 @@ export default function Header() {
             <a href="#layanan" className="nav-link">Layanan</a>
             <a href="#faq" className="nav-link">FAQ</a>
             <a href="#kontak" className="nav-link">Kontak</a>
+            <a href="/dashboard" className="nav-link">Dashboard</a>
             <a href="/login" className="nav-link">Admin</a>
+            <a href="/settings" className="nav-link inline-flex items-center gap-1">
+              <span className="material-symbols-rounded text-base">account_circle</span>
+              Settings
+            </a>
           </nav>
         </div>
       </div>
