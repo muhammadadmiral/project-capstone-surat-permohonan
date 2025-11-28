@@ -4,7 +4,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 enum Role {
@@ -27,11 +26,13 @@ model User {
   email     String   @unique
   password  String
   role      Role     @default(MAHASISWA)
+  studentNumber String? @unique
   avatarUrl String?
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   letters   LetterSubmission[]
+  createdLetters Letter[] @relation("LettersCreated")
   templates FormTemplate[] @relation("TemplateAuthor")
 }
 
@@ -66,6 +67,23 @@ model LetterSubmission {
   createdById String
 
   attachments SubmissionAttachment[]
+}
+
+model Letter {
+  id          String       @id @default(cuid())
+  title       String
+  type        String
+  status      LetterStatus @default(DRAFT)
+  studentName String
+  nim         String
+  email       String
+  notes       String?
+  payload     Json?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  createdBy   User         @relation("LettersCreated", fields: [createdById], references: [id])
+  createdById String
 }
 
 model SubmissionAttachment {
