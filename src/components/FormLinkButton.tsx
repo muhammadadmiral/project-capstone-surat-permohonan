@@ -13,17 +13,7 @@ export default function FormLinkButton({ href, label }: FormLinkButtonProps) {
     >
       <span className="font-medium inline-flex items-center justify-center gap-2 whitespace-normal break-words leading-snug">
         {label}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          className="h-5 w-5 opacity-90"
-          aria-hidden
-        >
-          <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+        <span className="material-symbols-rounded text-base opacity-90">arrow_outward</span>
       </span>
     </Link>
   );

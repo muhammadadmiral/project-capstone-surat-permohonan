@@ -6,10 +6,12 @@ import FAQ from "@/components/FAQ";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-orange-50/60 via-white to-white">
-      <div className="mx-auto max-w-6xl w-full px-4 py-10 md:py-14 space-y-8 md:space-y-10">
+    <main className="min-h-screen bg-gradient-to-b from-[#fff5eb] via-white to-[#fff0e0]">
+      <div className="mx-auto w-full max-w-7xl px-4 md:px-8 pt-10 md:pt-14">
         <Hero />
+      </div>
 
+      <div className="mx-auto w-full max-w-6xl px-4 md:px-6 pb-12 space-y-8 md:space-y-10">
         <div className="grid gap-6 md:grid-cols-[1.05fr_1fr]">
           <QuickStartForm />
           <section className="card p-6 md:p-8">

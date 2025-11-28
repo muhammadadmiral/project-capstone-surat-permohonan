@@ -5,15 +5,15 @@ import { motion } from "framer-motion";
 const faqs = [
   {
     q: "Berapa lama proses penerbitan surat?",
-    a: "Waktu proses bervariasi tergantung jenis layanan. Rata-rata 2–5 hari kerja.",
+    a: "Waktu proses bervariasi tergantung jenis layanan. Rata-rata 2-5 hari kerja.",
   },
   {
     q: "Apakah harus menggunakan email kampus?",
-    a: "Disarankan menggunakan email kampus untuk memudahkan verifikasi.",
+    a: "Disarankan menggunakan email kampus untuk memudahkan verifikasi dan pengiriman berkas.",
   },
   {
     q: "Jika ada kendala, ke mana harus menghubungi?",
-    a: "Silakan hubungi admin melalui kontak yang tersedia pada bagian footer.",
+    a: "Silakan hubungi admin melalui kontak yang tersedia pada bagian footer atau email fik@upnvj.ac.id.",
   },
 ];
 
@@ -33,18 +33,14 @@ export default function FAQ() {
           >
             <summary className="flex cursor-pointer items-center justify-between text-gray-900 font-medium list-none">
               {item.q}
-              <span className="ml-4 grid h-6 w-6 place-items-center rounded-md bg-orange-50 text-brand ring-1 ring-orange-200">
-                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 5v14M5 12h14" className="group-open:hidden" />
-                  <path d="M5 12h14" className="hidden group-open:block" />
-                </svg>
+              <span className="ml-4 grid h-7 w-7 place-items-center rounded-md bg-orange-50 text-brand ring-1 ring-orange-200 transition-transform duration-200 group-open:rotate-180">
+                <span className="material-symbols-rounded text-base">expand_more</span>
               </span>
             </summary>
-            <p className="mt-2 text-sm text-gray-600">{item.a}</p>
+            <p className="mt-2 text-sm text-gray-600 leading-relaxed">{item.a}</p>
           </motion.details>
         ))}
       </div>
     </section>
   );
 }
-

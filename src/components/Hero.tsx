@@ -9,7 +9,7 @@ export default function Hero() {
 
   const stats = [
     { label: "Respons awal", value: "< 1 hari kerja", icon: "bolt" },
-    { label: "Estimasi selesai", value: "2-7 hari kerja", icon: "schedule" },
+  { label: "Estimasi selesai", value: "2-7 hari kerja", icon: "schedule" },
     { label: "Layanan aktif", value: "10 formulir", icon: "approval" },
   ];
 

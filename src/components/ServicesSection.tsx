@@ -30,10 +30,7 @@ export default function ServicesSection() {
             className="w-full rounded-xl border border-gray-200 bg-white pl-10 pr-3 py-2.5 outline-none ring-brand/20 focus:ring-2"
           />
           <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="11" cy="11" r="7" />
-              <path d="m20 20-3.5-3.5" />
-            </svg>
+            <span className="material-symbols-rounded text-lg">search</span>
           </span>
         </label>
       </div>
