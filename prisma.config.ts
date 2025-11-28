@@ -8,4 +8,7 @@ export default defineConfig({
       DATABASE_URL: string;
     }>("DATABASE_URL"),
   },
+  migrations: {
+    seed: "node prisma/seed.js",
+  },
 });
