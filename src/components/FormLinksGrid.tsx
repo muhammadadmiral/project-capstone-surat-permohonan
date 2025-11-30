@@ -6,9 +6,11 @@ import { motion } from "framer-motion";
 
 type FormLinksGridProps = {
   links: FormLink[];
+  locked?: boolean;
+  lockedHref?: string;
 };
 
-export default function FormLinksGrid({ links }: FormLinksGridProps) {
+export default function FormLinksGrid({ links, locked, lockedHref }: FormLinksGridProps) {
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -32,7 +34,7 @@ export default function FormLinksGrid({ links }: FormLinksGridProps) {
     >
       {links.map((itemLink) => (
         <motion.div key={itemLink.href} variants={item} className="h-full">
-          <FormLinkButton href={itemLink.href} label={itemLink.label} />
+          <FormLinkButton href={itemLink.href} label={itemLink.label} locked={locked} lockedHref={lockedHref} />
         </motion.div>
       ))}
     </motion.section>

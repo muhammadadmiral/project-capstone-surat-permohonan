@@ -5,7 +5,12 @@ import { formLinks } from "@/data/formLinks";
 import FormLinksGrid from "./FormLinksGrid";
 import { motion } from "framer-motion";
 
-export default function ServicesSection() {
+type ServicesSectionProps = {
+  locked?: boolean;
+  lockedHref?: string;
+};
+
+export default function ServicesSection({ locked, lockedHref }: ServicesSectionProps) {
   const [q, setQ] = useState("");
 
   const filtered = useMemo(() => {
@@ -19,15 +24,18 @@ export default function ServicesSection() {
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
           <h2 className="text-xl md:text-2xl font-semibold text-gray-900">Pilih Layanan</h2>
-          <p className="text-sm text-gray-600">Silakan pilih layanan yang Anda butuhkan.</p>
+          <p className="text-sm text-gray-600">
+            {locked ? "Masuk sebagai mahasiswa untuk memilih layanan dan mengisi permohonan." : "Silakan pilih layanan yang Anda butuhkan."}
+          </p>
         </div>
 
         <label className="relative w-full md:w-80">
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Cari layanan..."
-            className="w-full rounded-xl border border-gray-200 bg-white pl-10 pr-3 py-2.5 outline-none ring-brand/20 focus:ring-2"
+            placeholder={locked ? "Masuk untuk mencari layanan" : "Cari layanan..."}
+            disabled={locked}
+            className="w-full rounded-xl border border-gray-200 bg-white pl-10 pr-3 py-2.5 outline-none ring-brand/20 focus:ring-2 disabled:bg-gray-50 disabled:text-gray-400"
           />
           <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
             <span className="material-symbols-rounded text-lg">search</span>
@@ -45,7 +53,7 @@ export default function ServicesSection() {
       </motion.p>
 
       {filtered.length > 0 ? (
-        <FormLinksGrid links={filtered} />
+        <FormLinksGrid links={filtered} locked={locked} lockedHref={lockedHref} />
       ) : (
         <div className="card p-6 text-sm text-gray-600">Tidak ada layanan yang cocok.</div>
       )}

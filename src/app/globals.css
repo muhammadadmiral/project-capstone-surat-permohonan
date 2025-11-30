@@ -7,6 +7,14 @@
   --brand-600: #C77005; /* orange-600 */
 }
 
+/* Manual theme toggle */
+[data-theme="dark"] {
+  --background: #0b1021;
+  --foreground: #e5e7eb;
+  --brand: #f97316;
+  --brand-600: #fb923c;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -28,6 +36,29 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), "Segoe UI", system-ui, -apple-system,
     sans-serif;
+}
+
+/* Strengthen form readability */
+input,
+textarea,
+select {
+  color: #0f172a !important;
+  background-color: #ffffff;
+  caret-color: #0f172a;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #6b7280 !important;
+  opacity: 1 !important;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.18);
+  border-color: #fb923c;
 }
 
 /* Soft academic backdrop pattern */
@@ -61,4 +92,18 @@ body {
 /* Header navigation link */
 .nav-link {
   @apply rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-orange-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-300;
+}
+
+/* Reusable UI helpers */
+.glass-panel {
+  color-scheme: light;
+  @apply rounded-3xl bg-white/98 p-8 shadow-[0_30px_120px_-60px_rgba(249,115,22,0.9)] ring-1 ring-orange-100/70 backdrop-blur;
+}
+
+.input-surface {
+  @apply w-full rounded-xl border border-orange-100/80 bg-white px-4 py-3 text-sm font-semibold text-gray-900 placeholder:text-gray-500 shadow-[0_20px_60px_-40px_rgba(17,24,39,0.6)] ring-1 ring-orange-100/60 transition focus:border-brand focus:ring-2 focus:ring-brand/25;
+}
+
+.badge-soft {
+  @apply inline-flex items-center gap-2 rounded-full bg-orange-50/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-700 ring-1 ring-orange-100;
 }

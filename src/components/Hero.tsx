@@ -1,15 +1,22 @@
-﻿"use client";
+"use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
 
-export default function Hero() {
+type HeroProps = {
+  primaryHref: string;
+  primaryLabel: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+};
+
+export default function Hero({ primaryHref, primaryLabel, secondaryHref = "#layanan", secondaryLabel = "Lihat layanan" }: HeroProps) {
   const { scrollYProgress } = useScroll();
   const floatY = useTransform(scrollYProgress, [0, 1], [0, 80]);
   const floatX = useTransform(scrollYProgress, [0, 1], [0, -40]);
 
   const stats = [
     { label: "Respons awal", value: "< 1 hari kerja", icon: "bolt" },
-  { label: "Estimasi selesai", value: "2-7 hari kerja", icon: "schedule" },
+    { label: "Estimasi selesai", value: "2-7 hari kerja", icon: "schedule" },
     { label: "Layanan aktif", value: "10 formulir", icon: "approval" },
   ];
 
@@ -38,8 +45,8 @@ export default function Hero() {
             transition={{ duration: 0.5 }}
             className="text-3xl md:text-5xl font-semibold text-gray-900 tracking-tight"
           >
-            Layanan Persuratan Akademis
-            <span className="block text-brand">TODO : HERO</span>
+            Layanan persuratan akademik yang terintegrasi
+            <span className="block text-brand">Cepat, transparan, responsif</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 8 }}
@@ -47,16 +54,15 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="mt-2 text-gray-600 md:text-lg"
           >
-            Ajukan permohonan surat akademik, beasiswa, hingga MBKM dengan sentuhan visual yang progresif
-            dan tetap formal.
+            Ajukan permohonan surat akademik, beasiswa, hingga MBKM dengan alur yang jelas dan status yang dapat dipantau.
           </motion.p>
 
           <div className="grid gap-3 sm:grid-cols-2">
-            <a href="#mulai" className="btn btn-primary">
-              Mulai Permohonan
+            <a href={primaryHref} className="btn btn-primary">
+              {primaryLabel}
             </a>
-            <a href="#layanan" className="btn btn-outline">
-              Lihat Layanan
+            <a href={secondaryHref} className="btn btn-outline">
+              {secondaryLabel}
             </a>
           </div>
 
@@ -91,7 +97,6 @@ export default function Hero() {
             className="absolute inset-3 rounded-[24px] bg-white/90 backdrop-blur"
             style={{ y: useTransform(scrollYProgress, [0, 1], [0, -30]) }}
           >
-            {/* TODO: Ganti backgroundImage dengan ilustrasi kampus futuristik atau foto gedung FIK */}
             <div
               className="h-full w-full rounded-[24px] bg-gradient-to-br from-orange-50 via-white to-orange-100"
               style={{
