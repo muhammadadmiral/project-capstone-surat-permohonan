@@ -19,8 +19,15 @@ const updateSchema = z.object({
 });
 
 export async function GET() {
-  const user = await getUserFromCookies();
-  if (!user) return NextResponse.json({ user: null }, { status: 401 });
+  const session = await getUserFromCookies();
+  if (!session) return NextResponse.json({ user: null }, { status: 401 });
+
+  const user = await prisma.user.findUnique({
+    where: { id: session.id },
+    select: { id: true, email: true, name: true, role: true, avatarUrl: true, studentNumber: true },
+  });
+  if (!user) return NextResponse.json({ user: null }, { status: 404 });
+
   return NextResponse.json({ user });
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useRouter } from "next/navigation";
@@ -54,6 +54,8 @@ async function jsonFetch<T>(url: string, init?: RequestInit): Promise<T> {
 export default function AdminDashboard({ currentUser }: { currentUser: CurrentUser }) {
   const router = useRouter();
   const qc = useQueryClient();
+  const [userMessage, setUserMessage] = useState<string | null>(null);
+  const [userError, setUserError] = useState<string | null>(null);
 
   const { data: templatesData } = useQuery<{ templates: Template[] }>({ queryKey: ["templates"], queryFn: () => jsonFetch("/api/forms/templates") });
   const { data: submissionsData, isFetching } = useQuery<{ submissions: Submission[] }>({ queryKey: ["submissions"], queryFn: () => jsonFetch("/api/forms/submissions") });
@@ -91,6 +93,28 @@ export default function AdminDashboard({ currentUser }: { currentUser: CurrentUs
         body: JSON.stringify({ status }),
       }),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["submissions"] }),
+  });
+
+  const createUserForm = useForm<{ name: string; email: string; password: string; role: "ADMIN" | "MAHASISWA" }>({
+    defaultValues: { name: "", email: "", password: "", role: "MAHASISWA" },
+  });
+
+  const createUserMutation = useMutation({
+    mutationFn: (values: { name: string; email: string; password: string; role: "ADMIN" | "MAHASISWA" }) =>
+      jsonFetch("/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      }),
+    onSuccess: () => {
+      setUserMessage("Akun baru berhasil dibuat.");
+      setUserError(null);
+      createUserForm.reset({ name: "", email: "", password: "", role: "MAHASISWA" });
+    },
+    onError: (err: any) => {
+      setUserMessage(null);
+      setUserError(err.message || "Gagal membuat akun.");
+    },
   });
 
   async function handleLogout() {
@@ -136,11 +160,81 @@ export default function AdminDashboard({ currentUser }: { currentUser: CurrentUs
           <div className="text-3xl font-semibold text-gray-900 mt-1">{templates.filter((t) => t.isActive).length}</div>
           <p className="text-xs text-gray-600">{templates.length} total template</p>
         </div>
-        <div className="rounded-2xl border border-orange-100 bg-white/90 p-4 shadow-sm">
-          <div className="text-xs uppercase tracking-[0.16em] text-orange-700">Akun</div>
-          <div className="text-base font-semibold text-gray-900 mt-1">{currentUser.email}</div>
-          <p className="text-xs text-gray-600">Role: {currentUser.role}</p>
+      <div className="rounded-2xl border border-orange-100 bg-white/90 p-4 shadow-sm">
+        <div className="text-xs uppercase tracking-[0.16em] text-orange-700">Akun</div>
+        <div className="text-base font-semibold text-gray-900 mt-1">{currentUser.email}</div>
+        <p className="text-xs text-gray-600">Role: {currentUser.role}</p>
+      </div>
+    </div>
+
+      <div className="card p-5 md:p-6 space-y-4 border border-orange-100">
+        <div className="flex items-center gap-2">
+          <span className="material-symbols-rounded text-brand text-xl">person_add</span>
+          <div>
+            <h2 className="text-lg font-semibold text-gray-900">Tambah Akun</h2>
+            <p className="text-sm text-gray-600">Buat admin atau mahasiswa baru langsung dari panel.</p>
+          </div>
         </div>
+        {(userMessage || userError) && (
+          <div
+            className={`rounded-xl border px-4 py-3 text-sm shadow-sm ${
+              userError ? "border-red-200 bg-red-50 text-red-800" : "border-emerald-200 bg-emerald-50 text-emerald-800"
+            }`}
+          >
+            {userError || userMessage}
+          </div>
+        )}
+        <form
+          className="grid gap-3 md:grid-cols-2"
+          onSubmit={createUserForm.handleSubmit((values) => createUserMutation.mutate(values))}
+        >
+          <div className="md:col-span-2 grid gap-2">
+            <label className="text-sm font-semibold text-gray-800">Nama</label>
+            <input
+              {...createUserForm.register("name", { required: true })}
+              placeholder="Nama lengkap"
+              className="rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+            />
+          </div>
+          <div className="grid gap-2">
+            <label className="text-sm font-semibold text-gray-800">Email</label>
+            <input
+              type="email"
+              {...createUserForm.register("email", { required: true })}
+              placeholder="user@mahasiswa.upnvj.ac.id"
+              className="rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+            />
+          </div>
+          <div className="grid gap-2">
+            <label className="text-sm font-semibold text-gray-800">Password</label>
+            <input
+              type="password"
+              {...createUserForm.register("password", { required: true, minLength: 6 })}
+              placeholder="Minimal 6 karakter"
+              className="rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+            />
+          </div>
+          <div className="md:col-span-2 grid gap-2">
+            <label className="text-sm font-semibold text-gray-800">Role</label>
+            <select
+              {...createUserForm.register("role", { required: true })}
+              className="rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+            >
+              <option value="MAHASISWA">Mahasiswa</option>
+              <option value="ADMIN">Admin</option>
+            </select>
+            <p className="text-xs text-gray-600">Admin punya akses penuh dashboard; Mahasiswa hanya ajukan/lihat suratnya.</p>
+          </div>
+          <div className="md:col-span-2">
+            <button
+              type="submit"
+              disabled={createUserMutation.isPending}
+              className="btn btn-primary btn-full shadow-sm"
+            >
+              {createUserMutation.isPending ? "Membuat akun..." : "Simpan Akun"}
+            </button>
+          </div>
+        </form>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">

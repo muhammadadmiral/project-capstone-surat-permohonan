@@ -2,12 +2,15 @@ import { SignJWT, jwtVerify } from "jose";
 import type { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import type { Role } from "@prisma/client";
+import { prisma } from "./prisma";
 
 export type SessionUser = {
   id: string;
   email: string;
   name: string;
   role: Role;
+  avatarUrl?: string | null;
+  studentNumber?: string | null;
 };
 
 export const AUTH_COOKIE_NAME = "auth_token";
@@ -41,14 +44,28 @@ export async function verifySessionToken(token: string): Promise<SessionUser | n
 export async function getUserFromRequest(req: NextRequest): Promise<SessionUser | null> {
   const token = req.cookies.get(AUTH_COOKIE_NAME)?.value;
   if (!token) return null;
-  return verifySessionToken(token);
+  const session = await verifySessionToken(token);
+  if (!session) return null;
+  const user = await prisma.user.findUnique({
+    where: { id: session.id },
+    select: { id: true, email: true, name: true, role: true, avatarUrl: true, studentNumber: true },
+  });
+  if (!user) return null;
+  return { ...session, ...user };
 }
 
 export async function getUserFromCookies(): Promise<SessionUser | null> {
   const cookieStore = await cookies();
   const token = cookieStore.get(AUTH_COOKIE_NAME)?.value;
   if (!token) return null;
-  return verifySessionToken(token);
+  const session = await verifySessionToken(token);
+  if (!session) return null;
+  const user = await prisma.user.findUnique({
+    where: { id: session.id },
+    select: { id: true, email: true, name: true, role: true, avatarUrl: true, studentNumber: true },
+  });
+  if (!user) return null;
+  return { ...session, ...user };
 }
 
 export function setAuthCookie(res: NextResponse, token: string) {

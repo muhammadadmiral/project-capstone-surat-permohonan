@@ -189,7 +189,21 @@ export default function SettingsPanel({ currentUser }: { currentUser: CurrentUse
               </button>
             )}
           </div>
-          <p className="text-xs text-gray-500">Unggah foto persegi agar tidak terpotong.</p>
+          <div className="grid gap-2">
+            <label className="text-xs font-semibold text-gray-700">Atau pakai URL langsung</label>
+            <input
+              type="url"
+              placeholder="https://.../avatar.jpg"
+              {...form.register("avatarUrl", {
+                setValueAs: (v) => {
+                  const value = (v || "").trim();
+                  return value === "" ? null : value;
+                },
+              })}
+              className="rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+            />
+          </div>
+          <p className="text-xs text-gray-500">Unggah foto persegi agar tidak terpotong. Jika upload Cloudinary gagal, tempel URL langsung.</p>
         </div>
 
         <div className="grid gap-2">

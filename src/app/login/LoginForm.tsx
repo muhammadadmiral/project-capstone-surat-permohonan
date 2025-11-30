@@ -35,37 +35,46 @@ export default function LoginForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-5">
+    <form onSubmit={onSubmit} className="space-y-6">
       <div className="grid gap-2">
         <div className="flex items-center justify-between gap-3">
           <label htmlFor="login-email" className="text-sm font-semibold text-gray-900">
-            Email
+            Email UPNVJ
           </label>
-          <span className="rounded-full bg-orange-50 px-3 py-1 text-[11px] font-semibold text-orange-700 ring-1 ring-orange-200">
-            @mahasiswa.upnvj.ac.id
-          </span>
+          <span className="badge-soft">mahasiswa.upnvj.ac.id</span>
         </div>
-        <input
-          id="login-email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          autoComplete="username"
-          aria-describedby="login-email-help"
-          placeholder="Email kampus UPNVJ"
-          className="w-full rounded-xl border border-orange-200/70 bg-white/80 px-4 py-3 text-sm font-medium text-gray-900 placeholder:text-gray-400 shadow-inner outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
-        />
+        <div className="relative">
+          <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-orange-500">
+            <MailIcon className="h-5 w-5" />
+          </span>
+          <input
+            id="login-email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            autoComplete="username"
+            aria-describedby="login-email-help"
+            placeholder="nama@mahasiswa.upnvj.ac.id"
+            className="input-surface pl-10"
+          />
+        </div>
         <p id="login-email-help" className="text-xs text-gray-600">
-          Gunakan email UPNVJ resmi untuk akun admin atau mahasiswa.
+          Gunakan email kampus resmi. Admin dapat memakai email: admin@mahasiswa.upnvj.ac.id
         </p>
       </div>
 
       <div className="grid gap-2">
-        <label htmlFor="login-password" className="text-sm font-semibold text-gray-900">
-          Password
-        </label>
+        <div className="flex items-center justify-between gap-3">
+          <label htmlFor="login-password" className="text-sm font-semibold text-gray-900">
+            Password
+          </label>
+          <span className="text-[11px] font-semibold text-orange-700">Min. 6 karakter</span>
+        </div>
         <div className="relative">
+          <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-orange-500">
+            <LockIcon className="h-5 w-5" />
+          </span>
           <input
             id="login-password"
             type={showPassword ? "text" : "password"}
@@ -76,7 +85,7 @@ export default function LoginForm() {
             autoComplete="current-password"
             aria-describedby="login-password-help"
             placeholder="Masukkan kata sandi"
-            className="w-full rounded-xl border border-orange-200/70 bg-white/80 px-4 py-3 pr-12 text-sm font-medium text-gray-900 placeholder:text-gray-400 shadow-inner outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+            className="input-surface pl-10 pr-12"
           />
           <button
             type="button"
@@ -102,7 +111,7 @@ export default function LoginForm() {
       </div>
 
       {error && (
-        <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700">
+        <div className="rounded-xl border border-red-200 bg-gradient-to-r from-red-50 via-white to-red-50 px-4 py-2 text-sm font-semibold text-red-700 shadow-sm">
           {error}
         </div>
       )}
@@ -110,13 +119,17 @@ export default function LoginForm() {
       <button
         type="submit"
         disabled={loading}
-        className="btn btn-primary btn-full shadow-lg shadow-orange-200/70"
+        className="btn btn-primary btn-full shadow-[0_30px_80px_-45px_rgba(249,115,22,0.9)] transition-transform hover:-translate-y-0.5 disabled:translate-y-0"
       >
         {loading ? "Memproses..." : "Masuk ke Dashboard"}
       </button>
-      <p className="text-center text-xs text-gray-600">
-        Hubungi super admin untuk reset password atau permintaan akses baru.
-      </p>
+      <div className="flex items-center justify-between text-xs text-gray-600">
+        <span className="flex items-center gap-2 font-semibold text-gray-700">
+          <span className="material-symbols-rounded text-base text-green-600">lock</span>
+          Sesi terenkripsi
+        </span>
+        <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-gray-500">Tekan Enter untuk masuk</span>
+      </div>
     </form>
   );
 }
@@ -134,6 +147,24 @@ function EyeIcon(props: SVGProps<SVGSVGElement>) {
     >
       <path d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7C20.268 16.057 16.477 19 12 19s-8.268-2.943-9.542-7Z" />
       <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
+
+function MailIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="m3 7 9 6 9-6" />
+    </svg>
+  );
+}
+
+function LockIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <rect x="4" y="11" width="16" height="9" rx="2" />
+      <path d="M8 11V8a4 4 0 0 1 8 0v3" />
     </svg>
   );
 }
