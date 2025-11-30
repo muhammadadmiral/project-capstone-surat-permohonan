@@ -45,7 +45,8 @@ export async function getUserFromRequest(req: NextRequest): Promise<SessionUser 
 }
 
 export async function getUserFromCookies(): Promise<SessionUser | null> {
-  const token = cookies().get(AUTH_COOKIE_NAME)?.value;
+  const cookieStore = await cookies();
+  const token = cookieStore.get(AUTH_COOKIE_NAME)?.value;
   if (!token) return null;
   return verifySessionToken(token);
 }

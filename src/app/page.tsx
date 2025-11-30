@@ -3,8 +3,19 @@ import Hero from "@/components/Hero";
 import Steps from "@/components/Steps";
 import ServicesSection from "@/components/ServicesSection";
 import FAQ from "@/components/FAQ";
+import { getUserFromCookies } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default async function Home() {
+  const user = await getUserFromCookies();
+  if (user) {
+    if (user.role === "ADMIN") {
+      redirect("/admin");
+    } else {
+      redirect("/dashboard");
+    }
+  }
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#fff5eb] via-white to-[#fff0e0]">
       <div className="mx-auto w-full max-w-7xl px-4 md:px-8 pt-10 md:pt-14">

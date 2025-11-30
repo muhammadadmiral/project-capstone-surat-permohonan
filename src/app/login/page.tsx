@@ -6,7 +6,7 @@ export default async function LoginPage() {
   const user = await getUserFromCookies();
   if (user) {
     if (user.role === "ADMIN") redirect("/admin");
-    redirect("/");
+    redirect("/dashboard");
   }
 
   return (

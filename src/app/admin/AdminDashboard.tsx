@@ -129,7 +129,7 @@ export default function AdminDashboard({ currentUser }: { currentUser: CurrentUs
         <div className="rounded-2xl border border-orange-100 bg-white/90 p-4 shadow-sm">
           <div className="text-xs uppercase tracking-[0.16em] text-orange-700">Total Surat</div>
           <div className="text-3xl font-semibold text-gray-900 mt-1">{stats.total}</div>
-          <p className="text-xs text-gray-600">{stats.byStatus.APPROVED || 0} selesai • {stats.byStatus.IN_REVIEW || 0} proses</p>
+          <p className="text-xs text-gray-600">{stats.byStatus.APPROVED || 0} selesai / {stats.byStatus.IN_REVIEW || 0} proses</p>
         </div>
         <div className="rounded-2xl border border-orange-100 bg-white/90 p-4 shadow-sm">
           <div className="text-xs uppercase tracking-[0.16em] text-orange-700">Template aktif</div>

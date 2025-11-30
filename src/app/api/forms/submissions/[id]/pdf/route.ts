@@ -9,12 +9,13 @@ function renderPayload(doc: PDFKit.PDFDocument, payload: Record<string, any>) {
   });
 }
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params;
   const user = await getUserFromRequest(req);
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const submission = await prisma.letterSubmission.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: { template: true, attachments: true },
   });
 
