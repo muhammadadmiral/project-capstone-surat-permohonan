@@ -38,33 +38,45 @@ export default function LoginForm() {
     <form onSubmit={onSubmit} className="space-y-5">
       <div className="grid gap-2">
         <div className="flex items-center justify-between gap-3">
-          <label className="text-sm font-semibold text-gray-900">Email</label>
+          <label htmlFor="login-email" className="text-sm font-semibold text-gray-900">
+            Email
+          </label>
           <span className="rounded-full bg-orange-50 px-3 py-1 text-[11px] font-semibold text-orange-700 ring-1 ring-orange-200">
             @mahasiswa.upnvj.ac.id
           </span>
         </div>
         <input
+          id="login-email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          placeholder="2110511125@mahasiswa.upnvj.ac.id"
-          className="w-full rounded-xl border border-orange-200/70 bg-white/80 px-4 py-3 text-sm font-medium text-gray-900 placeholder:text-gray-500 shadow-inner outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+          autoComplete="username"
+          aria-describedby="login-email-help"
+          placeholder="Email kampus UPNVJ"
+          className="w-full rounded-xl border border-orange-200/70 bg-white/80 px-4 py-3 text-sm font-medium text-gray-900 placeholder:text-gray-400 shadow-inner outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
         />
-        <p className="text-xs text-gray-600">Gunakan email UPNVJ resmi untuk akun admin atau mahasiswa.</p>
+        <p id="login-email-help" className="text-xs text-gray-600">
+          Gunakan email UPNVJ resmi untuk akun admin atau mahasiswa.
+        </p>
       </div>
 
       <div className="grid gap-2">
-        <label className="text-sm font-semibold text-gray-900">Password</label>
+        <label htmlFor="login-password" className="text-sm font-semibold text-gray-900">
+          Password
+        </label>
         <div className="relative">
           <input
+            id="login-password"
             type={showPassword ? "text" : "password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={6}
-            placeholder="mahasiswa123"
-            className="w-full rounded-xl border border-orange-200/70 bg-white/80 px-4 py-3 pr-12 text-sm font-medium text-gray-900 placeholder:text-gray-500 shadow-inner outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+            autoComplete="current-password"
+            aria-describedby="login-password-help"
+            placeholder="Masukkan kata sandi"
+            className="w-full rounded-xl border border-orange-200/70 bg-white/80 px-4 py-3 pr-12 text-sm font-medium text-gray-900 placeholder:text-gray-400 shadow-inner outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
           />
           <button
             type="button"
@@ -75,8 +87,11 @@ export default function LoginForm() {
             {showPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
           </button>
         </div>
-        <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-gray-600">
-          <span>Kata sandi default: mahasiswa123</span>
+        <div
+          id="login-password-help"
+          className="flex flex-wrap items-center justify-between gap-2 text-xs text-gray-600"
+        >
+          <span>Gunakan kata sandi akun. Minta reset jika tidak bisa masuk.</span>
           <a
             className="font-semibold text-brand hover:text-brand-600"
             href="mailto:fik@upnvj.ac.id?subject=Reset%20Password%20Admin%20Persuratan"
