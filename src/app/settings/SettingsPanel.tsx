@@ -25,6 +25,7 @@ type ProfileForm = {
   avatarUrl?: string | null;
   passwordCurrent?: string;
   passwordNext?: string;
+  passwordConfirm?: string;
 };
 
 async function uploadToCloudinary(file: File) {
@@ -53,6 +54,18 @@ export default function SettingsPanel({ currentUser }: { currentUser: CurrentUse
   const router = useRouter();
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+
+  const passwordStrength = (value: string | undefined) => {
+    if (!value) return 0;
+    let score = 0;
+    if (value.length >= 8) score++;
+    if (/[A-Z]/.test(value)) score++;
+    if (/[a-z]/.test(value)) score++;
+    if (/[0-9]/.test(value)) score++;
+    if (/[^A-Za-z0-9]/.test(value)) score++;
+    return Math.min(score, 4);
+  };
 
   const form = useForm<ProfileForm>({ defaultValues: { name: currentUser.name, avatarUrl: currentUser.avatarUrl || undefined } });
 
@@ -70,7 +83,8 @@ export default function SettingsPanel({ currentUser }: { currentUser: CurrentUse
     onSuccess: () => {
       setMessage("Profil berhasil diperbarui.");
       setError(null);
-      form.reset({ ...form.getValues(), passwordCurrent: "", passwordNext: "" });
+      setPasswordError(null);
+      form.reset({ ...form.getValues(), passwordCurrent: "", passwordNext: "", passwordConfirm: "" });
       qc.invalidateQueries();
       router.refresh();
     },
@@ -94,36 +108,65 @@ export default function SettingsPanel({ currentUser }: { currentUser: CurrentUse
     }
   }
 
+  const nextPassword = form.watch("passwordNext");
+  const strength = passwordStrength(nextPassword);
+
   return (
     <div className="card p-6 md:p-8 space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-orange-700">Pengaturan Akun</p>
           <h1 className="text-2xl font-semibold text-gray-900">Profil & Keamanan</h1>
-          <p className="text-sm text-gray-600">Ubah nama, foto profil, dan password Anda.</p>
+          <p className="text-sm text-gray-600">Ubah nama, foto profil, dan password dengan indikator kekuatan.</p>
         </div>
         <div className="flex items-center gap-3">
-          <div className="h-12 w-12 rounded-full bg-orange-100 grid place-items-center text-brand text-lg overflow-hidden ring-2 ring-orange-200">
+          <div className="h-14 w-14 rounded-full bg-orange-100 grid place-items-center text-brand text-lg overflow-hidden ring-2 ring-orange-200">
             {form.watch("avatarUrl") ? (
               <img src={form.watch("avatarUrl")!} alt="avatar" className="h-full w-full object-cover" />
             ) : (
               currentUser.name.slice(0, 1).toUpperCase()
             )}
           </div>
+          <div className="text-sm text-gray-700">
+            <div className="font-semibold">{currentUser.name}</div>
+            <div className="text-xs text-gray-600">{currentUser.email}</div>
+          </div>
         </div>
       </div>
 
-      {(message || error) && (
+      {(message || error || passwordError) && (
         <div
           className={`rounded-xl border px-4 py-3 text-sm shadow-sm ${
-            error ? "border-red-200 bg-red-50 text-red-800" : "border-emerald-200 bg-emerald-50 text-emerald-800"
+            error || passwordError ? "border-red-200 bg-red-50 text-red-800" : "border-emerald-200 bg-emerald-50 text-emerald-800"
           }`}
         >
-          {error || message}
+          {error || passwordError || message}
         </div>
       )}
 
-      <form className="space-y-5" onSubmit={form.handleSubmit((values) => updateMutation.mutate(values))}>
+      <form
+        className="space-y-5"
+        onSubmit={form.handleSubmit((values) => {
+          setPasswordError(null);
+          const anyPassword = values.passwordCurrent || values.passwordNext || values.passwordConfirm;
+          if (anyPassword) {
+            if (!values.passwordCurrent || !values.passwordNext || !values.passwordConfirm) {
+              setPasswordError("Isi password sekarang, password baru, dan konfirmasi untuk mengganti password.");
+              return;
+            }
+            if (values.passwordNext !== values.passwordConfirm) {
+              setPasswordError("Konfirmasi password tidak cocok.");
+              return;
+            }
+            const strongPattern = /(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9])/;
+            if (!(values.passwordNext.length >= 8 && strongPattern.test(values.passwordNext))) {
+              setPasswordError("Password baru harus minimal 8 karakter dan kombinasi huruf besar, kecil, angka, dan simbol.");
+              return;
+            }
+          }
+          updateMutation.mutate(values);
+        })}
+      >
         <div className="grid gap-2">
           <label className="text-sm font-medium text-gray-800">Nama</label>
           <input
@@ -134,18 +177,19 @@ export default function SettingsPanel({ currentUser }: { currentUser: CurrentUse
 
         <div className="grid gap-2">
           <label className="text-sm font-medium text-gray-800">Foto profil</label>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
             <input type="file" accept="image/*" onChange={handleAvatar} className="text-sm" />
             {form.watch("avatarUrl") && (
               <button
                 type="button"
                 onClick={() => form.setValue("avatarUrl", null, { shouldDirty: true })}
-                className="text-xs text-red-600"
+                className="text-xs font-semibold text-red-600"
               >
                 Hapus foto
               </button>
             )}
           </div>
+          <p className="text-xs text-gray-500">Unggah foto persegi agar tidak terpotong.</p>
         </div>
 
         <div className="grid gap-2">
@@ -162,7 +206,24 @@ export default function SettingsPanel({ currentUser }: { currentUser: CurrentUse
             {...form.register("passwordNext")}
             className="rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
           />
-          <p className="text-xs text-gray-500">Isi keduanya jika ingin mengganti password.</p>
+          <input
+            type="password"
+            placeholder="Konfirmasi password baru"
+            {...form.register("passwordConfirm")}
+            className="rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+          />
+          <div className="space-y-1 rounded-xl border border-orange-100 bg-orange-50/60 p-3">
+            <div className="flex items-center justify-between text-xs font-semibold text-gray-800">
+              <span>Kekuatan password</span>
+              <span>{["", "Lemah", "Sedang", "Kuat", "Sangat kuat"][strength]}</span>
+            </div>
+            <div className="grid grid-cols-4 gap-1">
+              {[0, 1, 2, 3].map((i) => (
+                <div key={i} className={`h-2 rounded-full ${i < strength ? "bg-brand" : "bg-gray-200"}`} />
+              ))}
+            </div>
+            <p className="text-[11px] text-gray-600">Minimal 8 karakter, kombinasi huruf besar, kecil, angka, dan simbol.</p>
+          </div>
         </div>
 
         <button type="submit" className="btn btn-primary btn-full" disabled={updateMutation.isPending}>

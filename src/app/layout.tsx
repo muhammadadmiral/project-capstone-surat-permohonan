@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import React from "react";
 import QueryProvider from "@/components/providers/QueryProvider";
+import { getUserFromCookies } from "@/lib/auth";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,11 +23,13 @@ export const metadata: Metadata = {
     "Portal resmi layanan persuratan Fakultas Ilmu Komputer UPN Veteran Jakarta.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await getUserFromCookies();
+
   return (
     <html lang="en">
       <head>
@@ -39,7 +42,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <QueryProvider>
-          <Header />
+          <Header currentUser={user} />
           {children}
           <Footer />
         </QueryProvider>

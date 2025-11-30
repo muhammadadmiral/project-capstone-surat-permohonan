@@ -13,11 +13,11 @@ const adapter = new PrismaPg(new Pool({ connectionString }));
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  const defaultPassword = "Password123!";
+  const defaultPassword = "mahasiswa123";
   const hashedPassword = await hash(defaultPassword, 10);
 
   await prisma.user.upsert({
-    where: { email: "admin@fik.local" },
+    where: { email: "admin@mahasiswa.upnvj.ac.id" },
     update: {
       name: "Admin",
       password: hashedPassword,
@@ -26,7 +26,7 @@ async function main() {
     },
     create: {
       name: "Admin",
-      email: "admin@fik.local",
+      email: "admin@mahasiswa.upnvj.ac.id",
       password: hashedPassword,
       role: "ADMIN",
       isActive: true,
@@ -34,9 +34,9 @@ async function main() {
   });
 
   const students = [
-    { name: "Mahasiswa 1", email: "2110511125@student.fik.local", studentNumber: "2110511125" },
-    { name: "Mahasiswa 2", email: "2110511162@student.fik.local", studentNumber: "2110511162" },
-    { name: "Mahasiswa 3", email: "2110511166@student.fik.local", studentNumber: "2110511166" },
+    { name: "Mahasiswa 1", email: "2110511125@mahasiswa.upnvj.ac.id", studentNumber: "2110511125" },
+    { name: "Mahasiswa 2", email: "2110511162@mahasiswa.upnvj.ac.id", studentNumber: "2110511162" },
+    { name: "Mahasiswa 3", email: "2110511166@mahasiswa.upnvj.ac.id", studentNumber: "2110511166" },
   ];
 
   for (const student of students) {

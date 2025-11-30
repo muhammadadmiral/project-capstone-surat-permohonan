@@ -9,8 +9,11 @@ const updateSchema = z.object({
   avatarUrl: z.string().url().nullable().optional(),
   password: z
     .object({
-      current: z.string().min(6),
-      next: z.string().min(6),
+      current: z.string().min(8, "Password minimal 8 karakter"),
+      next: z
+        .string()
+        .min(8, "Password minimal 8 karakter")
+        .regex(/(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9])/, "Gunakan huruf besar, kecil, angka, dan simbol"),
     })
     .optional(),
 });
