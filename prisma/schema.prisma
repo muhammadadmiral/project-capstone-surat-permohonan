@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  MAHASISWA
+}
+
+enum LetterStatus {
+  DRAFT
+  IN_REVIEW
+  APPROVED
+  REJECTED
+  SENT
+  CANCELLED
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(MAHASISWA)
+  studentNumber String? @unique
+  avatarUrl String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  letters   LetterSubmission[]
+  createdLetters Letter[] @relation("LettersCreated")
+  templates FormTemplate[] @relation("TemplateAuthor")
+}
+
+model FormTemplate {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  description String?
+  isActive    Boolean  @default(true)
+  schema      Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  author     User      @relation("TemplateAuthor", fields: [authorId], references: [id])
+  authorId   String
+  submissions LetterSubmission[]
+}
+
+model LetterSubmission {
+  id          String       @id @default(cuid())
+  title       String
+  status      LetterStatus @default(DRAFT)
+  payload     Json
+  notes       String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  template    FormTemplate @relation(fields: [templateId], references: [id])
+  templateId  String
+
+  createdBy   User         @relation(fields: [createdById], references: [id])
+  createdById String
+
+  attachments SubmissionAttachment[]
+}
+
+model Letter {
+  id          String       @id @default(cuid())
+  title       String
+  type        String
+  status      LetterStatus @default(DRAFT)
+  studentName String
+  nim         String
+  email       String
+  notes       String?
+  payload     Json?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  createdBy   User         @relation("LettersCreated", fields: [createdById], references: [id])
+  createdById String
+}
+
+model SubmissionAttachment {
+  id           String            @id @default(cuid())
+  url          String
+  publicId     String
+  format       String?
+  bytes        Int?
+  width        Int?
+  height       Int?
+  type         String? // image, raw, pdf
+  createdAt    DateTime          @default(now())
+
+  submission   LetterSubmission  @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  submissionId String
+}

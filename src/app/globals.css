@@ -1,10 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --brand: #FF8C00; /* orange-500 */
-  --brand-600: #C77005; /* orange-600 */
+  --background: #fff7ed;
+  --foreground: #1f2937;
+  --surface: #fffaf5;
+  --muted: #7c5a3a;
+  --border: rgba(249, 115, 22, 0.18);
+  --brand: #f97316; /* orange-500 */
+  --brand-600: #ea580c; /* orange-600 */
+  --input-bg: #ffffff;
+  --input-border: rgba(249, 115, 22, 0.25);
 }
 
 @theme inline {
@@ -16,18 +21,37 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), "Segoe UI", system-ui, -apple-system,
     sans-serif;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  color-scheme: light;
+}
+
+/* Strengthen form readability */
+input,
+textarea,
+select {
+  color: var(--foreground);
+  background-color: var(--input-bg);
+  border-color: var(--input-border);
+  caret-color: var(--foreground);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.18);
+  border-color: #fb923c;
 }
 
 /* Soft academic backdrop pattern */
@@ -40,7 +64,16 @@ body {
 
 /* Card elevation */
 .card {
-  @apply rounded-2xl bg-white shadow-sm ring-1 ring-black/5;
+  background: var(--surface);
+  color: var(--foreground);
+  @apply rounded-2xl shadow-sm;
+  border: 1px solid var(--border);
+}
+
+.theme-surface {
+  background: var(--surface);
+  color: var(--foreground);
+  border-color: var(--border);
 }
 
 /* Unified button styles */
@@ -60,5 +93,31 @@ body {
 
 /* Header navigation link */
 .nav-link {
-  @apply rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-orange-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-300;
+  color: var(--foreground);
+  @apply rounded-lg px-3 py-2 text-sm font-medium hover:bg-orange-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-300;
+}
+
+/* Reusable UI helpers */
+.glass-panel {
+  color-scheme: light;
+  @apply rounded-3xl bg-white/98 p-6 sm:p-8 shadow-[0_30px_120px_-60px_rgba(249,115,22,0.9)] ring-1 ring-orange-100/70 backdrop-blur;
+}
+
+.input-surface {
+  color: var(--foreground);
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  @apply w-full rounded-xl px-4 py-3 text-sm font-semibold shadow-[0_20px_60px_-40px_rgba(17,24,39,0.6)] transition focus:border-brand focus:ring-2 focus:ring-brand/25;
+}
+
+.input-icon-left {
+  @apply pl-12;
+}
+
+.input-icon-right {
+  @apply pr-12;
+}
+
+.badge-soft {
+  @apply inline-flex items-center gap-2 rounded-full bg-orange-50/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-700 ring-1 ring-orange-100;
 }

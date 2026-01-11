@@ -9,6 +9,7 @@ import {
 } from "@/components/forms/fields";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const prodiOptions = [
@@ -110,12 +111,18 @@ export default function RisetKPMagangPage() {
     reset();
   };
 
+  const onError = () => {
+    toast.error("Form belum lengkap", {
+      description: "Lengkapi semua field wajib sebelum mengirim.",
+    });
+  };
+
   return (
     <FormLayout
       title="Surat Riset / KP / Magang Mandiri"
       description="Lengkapi data tim, tujuan surat, dan informasi instansi untuk pengajuan surat riset/KP/magang."
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-5">
         <div className="grid gap-4 md:grid-cols-2">
           <InputField
             label="Nama Mahasiswa 1"

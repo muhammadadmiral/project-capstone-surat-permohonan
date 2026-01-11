@@ -1,0 +1,384 @@
+[
+  {
+    "slug": "surat-keterangan-mahasiswa",
+    "title": "Surat Keterangan Mahasiswa",
+    "description": "Permohonan surat keterangan mahasiswa/aktif kuliah.",
+    "isActive": true,
+    "schema": [
+      { "id": "email", "label": "Email", "type": "text", "required": true, "placeholder": "nama@upnvj.ac.id" },
+      { "id": "namaMahasiswa", "label": "Nama Mahasiswa", "type": "text", "required": true, "placeholder": "Nama lengkap" },
+      { "id": "nim", "label": "NIM", "type": "text", "required": true },
+      {
+        "id": "tempatTanggalLahir",
+        "label": "Tempat, Tanggal Lahir",
+        "type": "text",
+        "required": true,
+        "placeholder": "Contoh: Jakarta, 01 Januari 2000"
+      },
+      { "id": "namaOrtuWali", "label": "Nama Orang Tua / Wali", "type": "text", "required": true },
+      { "id": "noHp", "label": "Nomor HP", "type": "text", "required": true, "placeholder": "08xxxxxxxxxx" },
+      { "id": "alamat", "label": "Alamat", "type": "textarea", "required": true },
+      {
+        "id": "prodi",
+        "label": "Program Studi",
+        "type": "select",
+        "required": true,
+        "options": ["S1 Sistem Informasi", "S1 Informatika", "D3 Informatika", "S1 Sains Data"]
+      },
+      {
+        "id": "jenisSuratKeterangan",
+        "label": "Jenis Surat Keterangan",
+        "type": "text",
+        "required": true,
+        "placeholder": "Surat keterangan aktif kuliah / lainnya"
+      },
+      {
+        "id": "kebutuhanSurat",
+        "label": "Kebutuhan Surat",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Tuliskan kebutuhan atau tujuan surat"
+      },
+      {
+        "id": "pengambilanSurat",
+        "label": "Pengambilan Surat",
+        "type": "select",
+        "required": true,
+        "options": ["Ke Fakultas", "Dikirim Email"]
+      },
+      {
+        "id": "buktiPembayaran",
+        "label": "Bukti Pembayaran",
+        "type": "file",
+        "required": true,
+        "helperText": "Unggah bukti pembayaran (foto atau PDF)"
+      }
+    ]
+  },
+  {
+    "slug": "rekomendasi-beasiswa",
+    "title": "Rekomendasi Beasiswa",
+    "description": "Permohonan surat rekomendasi beasiswa.",
+    "isActive": true,
+    "schema": [
+      { "id": "nama", "label": "Nama", "type": "text", "required": true },
+      {
+        "id": "jenisKelamin",
+        "label": "Jenis Kelamin",
+        "type": "select",
+        "required": true,
+        "options": ["Laki-laki", "Perempuan"]
+      },
+      { "id": "nim", "label": "NIM", "type": "text", "required": true },
+      {
+        "id": "prodi",
+        "label": "Program Studi",
+        "type": "select",
+        "required": true,
+        "options": ["S1 Sistem Informasi", "S1 Informatika", "D3 Informatika", "S1 Sains Data"]
+      },
+      {
+        "id": "semesterAtauSks",
+        "label": "Semester / SKS",
+        "type": "text",
+        "required": true,
+        "placeholder": "Contoh: Semester 5 / 90 SKS"
+      },
+      {
+        "id": "tempatTanggalLahir",
+        "label": "Tempat, Tanggal Lahir",
+        "type": "text",
+        "required": true,
+        "placeholder": "Contoh: Makassar, 02 Februari 2001"
+      },
+      { "id": "alamat", "label": "Alamat", "type": "textarea", "required": true },
+      { "id": "noHp", "label": "Nomor HP", "type": "text", "required": true, "placeholder": "08xxxxxxxxxx" },
+      { "id": "instansiPenyediaBeasiswa", "label": "Instansi Penyedia Beasiswa", "type": "text", "required": true },
+      { "id": "periodeBeasiswa", "label": "Periode Beasiswa", "type": "text", "required": true, "placeholder": "2024/2025" },
+      { "id": "email", "label": "Email", "type": "text", "required": true, "placeholder": "Email aktif" },
+      {
+        "id": "jenisPengambilanSurat",
+        "label": "Jenis Pengambilan Surat",
+        "type": "select",
+        "required": true,
+        "options": ["Ambil ke Fakultas", "Kirim Email"]
+      }
+    ]
+  },
+  {
+    "slug": "riset-kp-magang",
+    "title": "Surat Riset / KP / Magang Mandiri",
+    "description": "Form riset, kerja praktik, atau magang mandiri.",
+    "isActive": true,
+    "schema": [
+      { "id": "namaMahasiswa1", "label": "Nama Mahasiswa 1", "type": "text", "required": true },
+      { "id": "nimMahasiswa1", "label": "NIM Mahasiswa 1", "type": "text", "required": true },
+      { "id": "namaMahasiswa2", "label": "Nama Mahasiswa 2 (opsional)", "type": "text" },
+      { "id": "nimMahasiswa2", "label": "NIM Mahasiswa 2 (opsional)", "type": "text" },
+      { "id": "email", "label": "Email", "type": "text", "required": true, "placeholder": "Email aktif" },
+      { "id": "noHp", "label": "Nomor HP", "type": "text", "required": true, "placeholder": "08xxxxxxxxxx" },
+      {
+        "id": "prodi",
+        "label": "Program Studi",
+        "type": "select",
+        "required": true,
+        "options": ["S1 Sistem Informasi", "S1 Informatika", "D3 Informatika", "S1 Sains Data"]
+      },
+      {
+        "id": "jenisSurat",
+        "label": "Jenis Surat",
+        "type": "select",
+        "required": true,
+        "options": [
+          "Surat permohonan KP",
+          "Surat permohonan TA/Skripsi",
+          "Surat permohonan riset tugas kuliah",
+          "Surat magang berdampak mandiri",
+          "Surat magang mandiri",
+          "Yang lain"
+        ]
+      },
+      {
+        "id": "jenisSuratLainnya",
+        "label": "Jenis Surat Lainnya",
+        "type": "text",
+        "placeholder": "Isi jika memilih 'Yang lain'"
+      },
+      { "id": "namaPerusahaanInstansi", "label": "Nama Perusahaan / Instansi", "type": "text", "required": true },
+      { "id": "suratDitujukanKepadaYth", "label": "Surat Ditujukan Kepada Yth.", "type": "text", "required": true },
+      { "id": "judulKerjaPraktekAtauRisetTa", "label": "Judul Kerja Praktek / Riset / TA", "type": "text", "required": true },
+      { "id": "alamatPerusahaanInstansi", "label": "Alamat Perusahaan / Instansi", "type": "textarea", "required": true },
+      {
+        "id": "waktuKerjaPraktekAtauRiset",
+        "label": "Waktu Kerja Praktek / Riset",
+        "type": "text",
+        "required": true,
+        "placeholder": "MM/YYYY s/d MM/YYYY"
+      },
+      {
+        "id": "keterangan",
+        "label": "Keterangan",
+        "type": "select",
+        "required": true,
+        "options": ["Revisi", "Surat sebelumnya ditolak", "Pengajuan pertama", "Yang lain"]
+      },
+      {
+        "id": "keteranganLainnya",
+        "label": "Keterangan Lainnya",
+        "type": "text",
+        "placeholder": "Isi jika memilih 'Yang lain'"
+      },
+      {
+        "id": "jenisPengambilanSurat",
+        "label": "Jenis Pengambilan Surat",
+        "type": "select",
+        "required": true,
+        "options": ["Ambil ke Fakultas", "Kirim Email"]
+      }
+    ]
+  },
+  {
+    "slug": "rekomendasi-mbkm",
+    "title": "Surat Rekomendasi MBKM / Magang",
+    "description": "Template dasar permohonan rekomendasi magang atau kampus merdeka.",
+    "isActive": true,
+    "schema": [
+      { "id": "nama", "label": "Nama", "type": "text", "required": true },
+      { "id": "nim", "label": "NIM", "type": "text", "required": true },
+      {
+        "id": "prodi",
+        "label": "Program Studi",
+        "type": "select",
+        "required": true,
+        "options": ["S1 Sistem Informasi", "S1 Informatika", "D3 Informatika", "S1 Sains Data"]
+      },
+      { "id": "email", "label": "Email", "type": "text", "required": true, "placeholder": "Email aktif" },
+      { "id": "noHp", "label": "Nomor HP", "type": "text", "required": true, "placeholder": "08xxxxxxxxxx" },
+      {
+        "id": "programAtauPosisi",
+        "label": "Program / Posisi",
+        "type": "text",
+        "required": true,
+        "placeholder": "Posisi magang atau program MBKM"
+      },
+      { "id": "instansi", "label": "Instansi / Perusahaan", "type": "text", "required": true },
+      { "id": "alamatInstansi", "label": "Alamat Instansi", "type": "textarea", "required": true },
+      { "id": "periode", "label": "Periode Pelaksanaan", "type": "text", "required": true, "placeholder": "Contoh: Feb - Jun 2025" },
+      {
+        "id": "jenisPengambilanSurat",
+        "label": "Jenis Pengambilan Surat",
+        "type": "select",
+        "required": true,
+        "options": ["Ambil ke Fakultas", "Kirim Email"]
+      }
+    ]
+  },
+  {
+    "slug": "kebutuhan-alumni",
+    "title": "Layanan Alumni",
+    "description": "Permohonan dokumen untuk alumni.",
+    "isActive": true,
+    "schema": [
+      { "id": "nim", "label": "NIM", "type": "text", "required": true },
+      { "id": "namaLengkapSesuaiIjasah", "label": "Nama Lengkap (Sesuai Ijazah)", "type": "text", "required": true },
+      {
+        "id": "programStudi",
+        "label": "Program Studi",
+        "type": "select",
+        "required": true,
+        "options": ["D3 Sistem Informasi", "S1 Informatika", "S1 Sistem Informasi"]
+      },
+      {
+        "id": "nomorTeleponAktif",
+        "label": "Nomor Telepon Aktif",
+        "type": "text",
+        "required": true,
+        "placeholder": "08xxxxxxxxxx"
+      },
+      { "id": "email", "label": "Email", "type": "text", "required": true, "placeholder": "Email aktif" },
+      { "id": "alamat", "label": "Alamat", "type": "textarea", "required": true },
+      { "id": "keperluanJenisSurat", "label": "Keperluan / Jenis Surat", "type": "textarea", "required": true },
+      { "id": "scanIjasah", "label": "Scan Ijazah", "type": "file", "required": true },
+      { "id": "transkipNilai", "label": "Transkip Nilai", "type": "file", "required": true },
+      { "id": "scanKtp", "label": "Scan KTP", "type": "file", "required": true },
+      { "id": "suratPermohonan", "label": "Surat Permohonan", "type": "file", "required": true }
+    ]
+  },
+  {
+    "slug": "cuti-akademik",
+    "title": "Cuti Akademik",
+    "description": "Pengajuan cuti akademik dengan unggahan formulir.",
+    "isActive": true,
+    "schema": [
+      { "id": "namaLengkap", "label": "Nama Lengkap", "type": "text", "required": true },
+      { "id": "nim", "label": "NIM", "type": "text", "required": true },
+      {
+        "id": "jurusan",
+        "label": "Jurusan",
+        "type": "select",
+        "required": true,
+        "options": ["S1 Informatika", "S1 Sistem Informasi", "D3 Sistem Informasi"]
+      },
+      { "id": "tempatLahir", "label": "Tempat Lahir", "type": "text", "required": true },
+      { "id": "tanggalLahir", "label": "Tanggal Lahir", "type": "date", "required": true },
+      { "id": "tanggalPengajuan", "label": "Tanggal Pengajuan", "type": "date", "required": true },
+      { "id": "nomorTelepon", "label": "Nomor Telepon", "type": "text", "required": true, "placeholder": "08xxxxxxxxxx" },
+      { "id": "kodePos", "label": "Kode Pos", "type": "text", "required": true },
+      { "id": "email", "label": "Email", "type": "text", "required": true, "placeholder": "Email aktif" },
+      { "id": "namaOrangTua", "label": "Nama Orang Tua", "type": "text" },
+      { "id": "pembimbingAkademik", "label": "Pembimbing Akademik", "type": "text", "required": true },
+      { "id": "alamatRumah", "label": "Alamat Rumah", "type": "textarea", "required": true },
+      {
+        "id": "pernahCutiSebelumnya",
+        "label": "Pernah Cuti Sebelumnya?",
+        "type": "select",
+        "required": true,
+        "options": ["Sudah", "Belum"]
+      },
+      {
+        "id": "detailCutiSebelumnya",
+        "label": "Detail Cuti Sebelumnya",
+        "type": "textarea",
+        "helperText": "Isi jika sudah pernah cuti"
+      },
+      {
+        "id": "formulirCutiDitandatangani",
+        "label": "Formulir Cuti Ditandatangani",
+        "type": "file",
+        "required": true,
+        "helperText": "Unggah formulir yang telah ditandatangani"
+      }
+    ]
+  },
+  {
+    "slug": "aktif-kembali",
+    "title": "Aktif Kembali",
+    "description": "Permohonan aktif kembali setelah cuti/non-aktif.",
+    "isActive": true,
+    "schema": [
+      { "id": "nim", "label": "NIM", "type": "text", "required": true },
+      { "id": "namaLengkap", "label": "Nama Lengkap", "type": "text", "required": true },
+      { "id": "email", "label": "Email", "type": "text", "required": true, "placeholder": "Email aktif" },
+      { "id": "nomorTelepon", "label": "Nomor Telepon", "type": "text", "required": true, "placeholder": "08xxxxxxxxxx" },
+      {
+        "id": "statusSemesterSebelumnya",
+        "label": "Status Semester Sebelumnya",
+        "type": "textarea",
+        "required": true,
+        "helperText": "Contoh: Cuti Semester Genap TA 2023/2024"
+      },
+      {
+        "id": "permohonan",
+        "label": "Permohonan",
+        "type": "select",
+        "required": true,
+        "options": ["Aktif Kembali"]
+      },
+      { "id": "foto4x6", "label": "Foto 4x6", "type": "file", "required": true },
+      { "id": "fotoKtm", "label": "Foto KTM", "type": "file", "required": true },
+      { "id": "suratPembayaranUangKuliah", "label": "Surat Pembayaran Uang Kuliah", "type": "file", "required": true }
+    ]
+  },
+  {
+    "slug": "pengunduran-diri",
+    "title": "Pengunduran Diri",
+    "description": "Pengajuan pengunduran diri mahasiswa.",
+    "isActive": true,
+    "schema": [
+      { "id": "namaLengkap", "label": "Nama Lengkap", "type": "text", "required": true },
+      { "id": "nim", "label": "NIM", "type": "text", "required": true },
+      {
+        "id": "programStudi",
+        "label": "Program Studi",
+        "type": "select",
+        "required": true,
+        "options": ["S1 Informatika", "S1 Sistem Informasi", "D3 Sistem Informasi"]
+      },
+      { "id": "email", "label": "Email", "type": "text", "required": true, "placeholder": "Email aktif" },
+      { "id": "noHpWa", "label": "No. HP / WA", "type": "text", "required": true, "placeholder": "08xxxxxxxxxx" },
+      { "id": "alasanPengunduranDiri", "label": "Alasan Pengunduran Diri", "type": "textarea", "required": true },
+      {
+        "id": "formulirPengunduranDiri",
+        "label": "Formulir Pengunduran Diri",
+        "type": "file",
+        "required": true,
+        "helperText": "Unggah formulir yang telah diisi"
+      }
+    ]
+  },
+  {
+    "slug": "surat-keterangan-tidak-menerima-beasiswa-lain",
+    "title": "Surat Ket. Tidak Menerima Beasiswa",
+    "description": "Pernyataan tidak menerima beasiswa dari pihak lain.",
+    "isActive": true,
+    "schema": [
+      { "id": "nama", "label": "Nama", "type": "text", "required": true },
+      { "id": "nim", "label": "NIM", "type": "text", "required": true },
+      {
+        "id": "programStudi",
+        "label": "Program Studi",
+        "type": "select",
+        "required": true,
+        "options": ["S1 Sistem Informasi", "S1 Informatika", "D3 Informatika", "S1 Sains Data"]
+      },
+      {
+        "id": "tempatTanggalLahir",
+        "label": "Tempat, Tanggal Lahir",
+        "type": "text",
+        "required": true,
+        "placeholder": "Contoh: Jakarta, 01 Januari 2000"
+      },
+      { "id": "noHpWa", "label": "No. HP / WA", "type": "text", "required": true, "placeholder": "08xxxxxxxxxx" },
+      { "id": "email", "label": "Email", "type": "text", "required": true, "placeholder": "Email aktif" },
+      { "id": "namaProgramBeasiswa", "label": "Nama Program Beasiswa", "type": "text", "required": true },
+      { "id": "penyelenggaraBeasiswa", "label": "Penyelenggara Beasiswa", "type": "text", "required": true },
+      {
+        "id": "suratPernyataanTidakMenerimaBeasiswa",
+        "label": "Surat Pernyataan Tidak Menerima Beasiswa",
+        "type": "file",
+        "required": true,
+        "helperText": "Unggah PDF bertanda tangan, maks 10MB"
+      }
+    ]
+  }
+]

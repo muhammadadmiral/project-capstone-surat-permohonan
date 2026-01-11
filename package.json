@@ -4,17 +4,31 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "dev:webpack": "cross-env NEXT_DISABLE_TURBOPACK=1 next dev",
+    "build": "cross-env NEXT_DISABLE_TURBOPACK=1 next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "prisma:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:seed": "prisma db seed"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@prisma/adapter-pg": "^7.0.1",
+    "@prisma/client": "7.0.1",
+    "@tanstack/react-query": "^5.62.10",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.8.0",
     "framer-motion": "^12.23.24",
+    "jose": "^5.9.6",
     "next": "16.0.3",
+    "pdfkit": "^0.15.2",
+    "pg": "^8.16.3",
+    "prisma": "7.0.1",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-hook-form": "^7.66.1",
+    "sonner": "^2.0.7",
     "zod": "^4.1.12"
   },
   "devDependencies": {
@@ -22,9 +36,13 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cross-env": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "16.0.3",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }

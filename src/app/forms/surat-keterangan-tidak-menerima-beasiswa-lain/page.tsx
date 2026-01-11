@@ -8,6 +8,7 @@ import {
 } from "@/components/forms/fields";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const programStudiOptions = [
@@ -66,12 +67,18 @@ export default function SuratKeteranganTidakMenerimaBeasiswaLainPage() {
     reset();
   };
 
+  const onError = () => {
+    toast.error("Form belum lengkap", {
+      description: "Lengkapi semua field wajib sebelum mengirim.",
+    });
+  };
+
   return (
     <FormLayout
       title="Surat Keterangan Tidak Menerima Beasiswa"
       description="Form untuk pengajuan keterangan bahwa mahasiswa tidak sedang menerima beasiswa dari pihak manapun."
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-5">
         <div className="grid gap-4 md:grid-cols-2">
           <InputField
             label="Nama"

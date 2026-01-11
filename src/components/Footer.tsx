@@ -15,9 +15,9 @@ export default function Footer() {
         <div>
           <div className="text-sm font-medium text-gray-900">Kontak</div>
           <ul className="mt-2 text-sm text-gray-600 space-y-1.5">
-            <li className="flex items-center gap-2">
+            <li className="flex flex-wrap items-center gap-2">
               <span className="material-symbols-rounded text-brand text-base">mail</span>
-              <a className="text-brand hover:underline" href="mailto:fik@upnvj.ac.id">fik@upnvj.ac.id</a>
+              <a className="text-brand hover:underline break-all" href="mailto:fik@upnvj.ac.id">fik@upnvj.ac.id</a>
             </li>
             <li className="flex items-center gap-2">
               <span className="material-symbols-rounded text-brand text-base">call</span>

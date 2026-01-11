@@ -1,9 +1,12 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import React from "react";
+import QueryProvider from "@/components/providers/QueryProvider";
+import ToastProvider from "@/components/providers/ToastProvider";
+import { getUserFromCookies } from "@/lib/auth";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,11 +24,18 @@ export const metadata: Metadata = {
     "Portal resmi layanan persuratan Fakultas Ilmu Komputer UPN Veteran Jakarta.",
 };
 
-export default function RootLayout({
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await getUserFromCookies();
+
   return (
     <html lang="en">
       <head>
@@ -37,9 +47,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
-        {children}
-        <Footer />
+        <QueryProvider>
+          <Header currentUser={user} />
+          {children}
+          <Footer />
+          <ToastProvider />
+        </QueryProvider>
       </body>
     </html>
   );
