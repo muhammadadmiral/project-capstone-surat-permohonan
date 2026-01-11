@@ -1,27 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { getUserFromRequest } from "@/lib/auth";
 import { NextResponse, type NextRequest } from "next/server";
-import { z } from "zod";
-
-const submissionSchema = z.object({
-  templateId: z.string(),
-  title: z.string().min(3),
-  payload: z.record(z.any()),
-  notes: z.string().optional(),
-  attachments: z
-    .array(
-      z.object({
-        url: z.string().url(),
-        publicId: z.string(),
-        format: z.string().optional(),
-        bytes: z.number().optional(),
-        width: z.number().optional(),
-        height: z.number().optional(),
-        type: z.string().optional(),
-      })
-    )
-    .optional(),
-});
 
 export async function GET(req: NextRequest) {
   const user = await getUserFromRequest(req);
@@ -44,27 +23,52 @@ export async function POST(req: NextRequest) {
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
-    const payload = submissionSchema.parse(await req.json());
+    const raw = (await req.json()) as Record<string, any>;
+
+    if (!raw || typeof raw !== "object") {
+      return NextResponse.json({ error: "Payload tidak valid" }, { status: 400 });
+    }
+
+    const { templateId, title, payload, notes, attachments } = raw;
+    if (!templateId || typeof templateId !== "string") {
+      return NextResponse.json({ error: "Template tidak valid" }, { status: 400 });
+    }
+    if (!title || typeof title !== "string" || title.trim().length < 3) {
+      return NextResponse.json({ error: "Judul terlalu pendek" }, { status: 400 });
+    }
+
+    const normalizedAttachments =
+      Array.isArray(attachments) && attachments.length > 0
+        ? attachments
+            .map((att: any) =>
+              att && typeof att === "object" && typeof att.url === "string" && typeof att.publicId === "string"
+                ? {
+                    url: att.url,
+                    publicId: att.publicId,
+                    format: typeof att.format === "string" ? att.format : undefined,
+                    bytes: typeof att.bytes === "number" ? att.bytes : undefined,
+                    width: typeof att.width === "number" ? att.width : undefined,
+                    height: typeof att.height === "number" ? att.height : undefined,
+                    type: typeof att.type === "string" ? att.type : undefined,
+                  }
+                : null
+            )
+            .filter(Boolean)
+        : undefined;
+
     const submission = await prisma.letterSubmission.create({
       data: {
-        title: payload.title,
-        payload: payload.payload,
-        notes: payload.notes,
-        templateId: payload.templateId,
+        title: title.trim(),
+        payload: payload ?? {},
+        notes: typeof notes === "string" ? notes : undefined,
+        templateId,
         createdById: user.id,
-        attachments: payload.attachments
-          ? {
-              create: payload.attachments.map((att) => ({
-                url: att.url,
-                publicId: att.publicId,
-                format: att.format,
-                bytes: att.bytes,
-                width: att.width,
-                height: att.height,
-                type: att.type,
-              })),
-            }
-          : undefined,
+        attachments:
+          normalizedAttachments && normalizedAttachments.length > 0
+            ? {
+                create: normalizedAttachments,
+              }
+            : undefined,
       },
       include: { template: true, attachments: true },
     });

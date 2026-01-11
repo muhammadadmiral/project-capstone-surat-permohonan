@@ -127,9 +127,9 @@ export default function SettingsPanel({ currentUser }: { currentUser: CurrentUse
               currentUser.name.slice(0, 1).toUpperCase()
             )}
           </div>
-          <div className="text-sm text-gray-700">
+          <div className="min-w-0 text-sm text-gray-700">
             <div className="font-semibold">{currentUser.name}</div>
-            <div className="text-xs text-gray-600">{currentUser.email}</div>
+            <div className="text-xs text-gray-600 break-all">{currentUser.email}</div>
           </div>
         </div>
       </div>

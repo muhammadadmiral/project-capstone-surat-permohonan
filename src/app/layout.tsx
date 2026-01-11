@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import React from "react";
 import QueryProvider from "@/components/providers/QueryProvider";
+import ToastProvider from "@/components/providers/ToastProvider";
 import { getUserFromCookies } from "@/lib/auth";
 
 const geistSans = Geist({
@@ -21,6 +22,11 @@ export const metadata: Metadata = {
   title: "Layanan Persuratan FIK UPN Veteran Jakarta",
   description:
     "Portal resmi layanan persuratan Fakultas Ilmu Komputer UPN Veteran Jakarta.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default async function RootLayout({
@@ -45,6 +51,7 @@ export default async function RootLayout({
           <Header currentUser={user} />
           {children}
           <Footer />
+          <ToastProvider />
         </QueryProvider>
       </body>
     </html>

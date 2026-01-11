@@ -162,7 +162,7 @@ export default function AdminDashboard({ currentUser }: { currentUser: CurrentUs
         </div>
       <div className="rounded-2xl border border-orange-100 bg-white/90 p-4 shadow-sm">
         <div className="text-xs uppercase tracking-[0.16em] text-orange-700">Akun</div>
-        <div className="text-base font-semibold text-gray-900 mt-1">{currentUser.email}</div>
+        <div className="mt-1 text-sm font-semibold text-gray-900 break-all sm:text-base">{currentUser.email}</div>
         <p className="text-xs text-gray-600">Role: {currentUser.role}</p>
       </div>
     </div>
@@ -329,12 +329,12 @@ export default function AdminDashboard({ currentUser }: { currentUser: CurrentUs
         </form>
 
         <div className="card p-5 md:p-6 space-y-3">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-2">
               <span className="material-symbols-rounded text-brand text-xl">table</span>
               <h2 className="text-lg font-semibold text-gray-900">Daftar Surat</h2>
             </div>
-            <span className="text-xs text-gray-600">Login: {currentUser.email}</span>
+            <span className="min-w-0 text-xs text-gray-600 break-all sm:text-right">Login: {currentUser.email}</span>
           </div>
           <div className="overflow-auto">
             <table className="min-w-full text-sm">

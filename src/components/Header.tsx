@@ -11,7 +11,6 @@ type HeaderProps = {
 export default function Header({ currentUser }: HeaderProps) {
   const [open, setOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-  const [theme, setTheme] = useState<"light" | "dark">("light");
   const [lang, setLang] = useState<"id" | "en">("id");
   const isAdmin = currentUser?.role === "ADMIN";
   const isStudent = currentUser?.role === "MAHASISWA";
@@ -38,30 +37,28 @@ export default function Header({ currentUser }: HeaderProps) {
     window.location.href = "/login";
   }
 
-  useEffect(() => {
-    const storedTheme = (typeof window !== "undefined" && localStorage.getItem("theme")) as "light" | "dark" | null;
-    const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const next = storedTheme || (prefersDark ? "dark" : "light");
-    setTheme(next);
-    document.documentElement.dataset.theme = next;
-  }, []);
+  function applyLang(next: "id" | "en") {
+    if (typeof document !== "undefined") {
+      document.documentElement.lang = next === "id" ? "id" : "en";
+      document.documentElement.dataset.lang = next;
+    }
+    try {
+      localStorage.setItem("lang", next);
+    } catch (_) {
+      /* ignore */
+    }
+    setLang(next);
+  }
 
   useEffect(() => {
     const storedLang = (typeof window !== "undefined" && localStorage.getItem("lang")) as "id" | "en" | null;
-    if (storedLang) setLang(storedLang);
+    const nextLang = storedLang || "id";
+    applyLang(nextLang);
   }, []);
-
-  function toggleTheme() {
-    const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
-    document.documentElement.dataset.theme = next;
-    localStorage.setItem("theme", next);
-  }
 
   function toggleLang() {
     const next = lang === "id" ? "en" : "id";
-    setLang(next);
-    localStorage.setItem("lang", next);
+    applyLang(next);
   }
 
   return (
@@ -69,19 +66,20 @@ export default function Header({ currentUser }: HeaderProps) {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.4 }}
-      className="sticky top-0 z-40 w-full border-b border-orange-100/70 bg-white/85 shadow-md backdrop-blur"
+      className="sticky top-0 z-40 w-full border-b bg-[color:var(--surface)] text-[color:var(--foreground)] shadow-md backdrop-blur"
+      style={{ borderColor: "var(--border)" }}
     >
       <div className="mx-auto max-w-6xl w-full px-4">
-        <div className="flex h-16 items-center justify-between gap-4">
-          <a href="/" className="flex items-center gap-3">
+        <div className="flex h-16 items-center justify-between gap-4 min-w-0">
+          <a href="/" className="flex min-w-0 items-center gap-3">
             <BrandMark />
-            <div className="leading-tight">
-              <div className="font-semibold text-gray-900">FIK UPN Veteran Jakarta</div>
-              <div className="text-xs text-gray-600">Layanan Persuratan</div>
+            <div className="min-w-0 leading-tight">
+              <div className="truncate text-sm font-semibold text-gray-900 sm:text-base">FIK UPN Veteran Jakarta</div>
+              <div className="truncate text-[11px] text-gray-600 sm:text-xs">Layanan Persuratan</div>
             </div>
           </a>
 
-          <div className="flex items-center gap-3 md:hidden">
+          <div className="flex items-center gap-3 lg:hidden">
             {currentUser && (
               <span className="rounded-full bg-orange-50 px-3 py-1 text-[11px] font-semibold text-orange-700 ring-1 ring-orange-200">
                 {isAdmin ? "Admin" : "Mahasiswa"}
@@ -96,8 +94,9 @@ export default function Header({ currentUser }: HeaderProps) {
             </button>
           </div>
 
-          <nav className="hidden md:flex items-center gap-2">
-            <div className="flex items-center gap-1 rounded-full bg-orange-50/80 px-2 py-1 ring-1 ring-orange-100 shadow-sm">
+          <nav className="hidden lg:flex items-center gap-2">
+            <div className="flex items-center gap-1 rounded-full bg-[color:var(--surface)] px-2 py-1 ring-1 shadow-sm"
+                 style={{ borderColor: "var(--border)" }}>
               {menuLinks.map((link) => (
                 <a key={link.href} href={link.href} className="nav-link">
                   {link.label}
@@ -177,34 +176,30 @@ export default function Header({ currentUser }: HeaderProps) {
                             <span className="material-symbols-rounded text-base text-brand">settings</span>
                             Pengaturan
                           </a>
-                          <button
-                            type="button"
-                            onClick={toggleTheme}
-                            className="flex w-full items-center justify-between rounded-xl px-3 py-2 font-semibold text-gray-800 hover:bg-orange-50"
-                          >
-                            <span className="flex items-center gap-2">
-                              <span className="material-symbols-rounded text-base text-brand">
-                                {theme === "dark" ? "dark_mode" : "light_mode"}
-                              </span>
-                              Mode {theme === "dark" ? "Gelap" : "Terang"}
-                            </span>
-                            <span className="rounded-full bg-orange-100 px-2 py-1 text-[11px] font-semibold text-orange-700">
-                              {theme === "dark" ? "Dark" : "Light"}
-                            </span>
-                          </button>
-                          <button
-                            type="button"
-                            onClick={toggleLang}
-                            className="flex w-full items-center justify-between rounded-xl px-3 py-2 font-semibold text-gray-800 hover:bg-orange-50"
-                          >
+                          <div className="flex items-center justify-between rounded-xl px-3 py-2 font-semibold text-gray-800 hover:bg-orange-50">
                             <span className="flex items-center gap-2">
                               <span className="material-symbols-rounded text-base text-brand">translate</span>
                               Bahasa
                             </span>
-                            <span className="rounded-full bg-orange-100 px-2 py-1 text-[11px] font-semibold text-orange-700">
-                              {lang === "id" ? "ID" : "EN"}
-                            </span>
-                          </button>
+                            <button
+                              type="button"
+                              role="switch"
+                              aria-checked={lang === "en"}
+                              onClick={toggleLang}
+                              className={`relative h-6 w-12 rounded-full transition ${
+                                lang === "en" ? "bg-gray-900" : "bg-orange-200"
+                              }`}
+                            >
+                              <span
+                                className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition ${
+                                  lang === "en" ? "right-0.5" : "left-0.5"
+                                }`}
+                              />
+                              <span className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-gray-800">
+                                {lang === "en" ? "EN" : "ID"}
+                              </span>
+                            </button>
+                          </div>
                           <button
                             onClick={handleLogout}
                             className="flex w-full items-center gap-2 rounded-xl px-3 py-2 font-semibold text-red-700 hover:bg-red-50"
@@ -230,7 +225,7 @@ export default function Header({ currentUser }: HeaderProps) {
             initial={{ opacity: 0, y: -6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
-            className="md:hidden border-b border-orange-100/70 bg-white shadow-inner"
+            className="lg:hidden border-b border-orange-100/70 bg-white shadow-inner"
           >
             <div className="mx-auto max-w-6xl px-4 py-3 space-y-3">
               <div className="flex flex-wrap gap-2">
@@ -287,9 +282,9 @@ export default function Header({ currentUser }: HeaderProps) {
                         </div>
                       )}
                     </div>
-                    <div className="leading-tight">
+                    <div className="min-w-0 leading-tight">
                       <div className="font-semibold">{currentUser.name}</div>
-                      <div className="text-xs text-gray-600">{currentUser.email}</div>
+                      <div className="text-xs text-gray-600 break-all">{currentUser.email}</div>
                     </div>
                   </div>
                   <div className="grid gap-2">
@@ -301,20 +296,26 @@ export default function Header({ currentUser }: HeaderProps) {
                       Pengaturan
                     </a>
                     <div className="flex items-center justify-between rounded-lg bg-white px-3 py-2 font-semibold text-gray-800 ring-1 ring-orange-100">
-                      <button onClick={toggleTheme} className="inline-flex items-center gap-2">
-                        <span className="material-symbols-rounded text-base text-brand">
-                          {theme === "dark" ? "dark_mode" : "light_mode"}
-                        </span>
-                        Mode {theme === "dark" ? "Gelap" : "Terang"}
-                      </button>
-                      <span className="text-[11px] font-semibold text-orange-700">{theme === "dark" ? "Dark" : "Light"}</span>
-                    </div>
-                    <div className="flex items-center justify-between rounded-lg bg-white px-3 py-2 font-semibold text-gray-800 ring-1 ring-orange-100">
-                      <button onClick={toggleLang} className="inline-flex items-center gap-2">
+                      <span className="inline-flex items-center gap-2">
                         <span className="material-symbols-rounded text-base text-brand">translate</span>
                         Bahasa
+                      </span>
+                      <button
+                        type="button"
+                        role="switch"
+                        aria-checked={lang === "en"}
+                        onClick={toggleLang}
+                        className={`relative h-6 w-12 rounded-full transition ${lang === "en" ? "bg-gray-900" : "bg-orange-200"}`}
+                      >
+                        <span
+                          className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition ${
+                            lang === "en" ? "right-0.5" : "left-0.5"
+                          }`}
+                        />
+                        <span className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-gray-800">
+                          {lang === "en" ? "EN" : "ID"}
+                        </span>
                       </button>
-                      <span className="text-[11px] font-semibold text-orange-700">{lang === "id" ? "ID" : "EN"}</span>
                     </div>
                     <button
                       onClick={() => {

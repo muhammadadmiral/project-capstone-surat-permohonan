@@ -8,11 +8,14 @@ const updateSchema = z.object({
   notes: z.string().optional(),
 });
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+type ParamsPromise = { params: Promise<{ id: string }> };
+
+export async function GET(req: NextRequest, context: ParamsPromise) {
+  const { id } = await context.params;
   const user = await getUserFromRequest(req);
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const letter = await prisma.letter.findUnique({ where: { id: params.id } });
+  const letter = await prisma.letter.findUnique({ where: { id } });
   if (!letter) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   if (user.role !== "ADMIN" && letter.createdById !== user.id) {
@@ -22,7 +25,8 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   return NextResponse.json({ letter });
 }
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, context: ParamsPromise) {
+  const { id } = await context.params;
   const user = await getUserFromRequest(req);
   if (!user || user.role !== "ADMIN") {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
@@ -31,7 +35,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   try {
     const payload = updateSchema.parse(await req.json());
     const letter = await prisma.letter.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         status: payload.status,
         notes: payload.notes,

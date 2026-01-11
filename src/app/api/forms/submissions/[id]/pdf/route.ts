@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+﻿import { prisma } from "@/lib/prisma";
 import { getUserFromRequest } from "@/lib/auth";
 import { NextResponse, type NextRequest } from "next/server";
 import PDFDocument from "pdfkit";
@@ -49,7 +49,7 @@ export async function GET(req: NextRequest, context: { params: Promise<{ id: str
       doc.moveDown();
       doc.text("Lampiran:", { underline: true });
       submission.attachments.forEach((att) => {
-        doc.text(`${att.publicId} — ${att.url}`);
+        doc.text(`${att.publicId} - ${att.url}`);
       });
     }
     doc.end();
@@ -59,7 +59,7 @@ export async function GET(req: NextRequest, context: { params: Promise<{ id: str
     status: 200,
     headers: {
       "Content-Type": "application/pdf",
-      "Content-Disposition": `attachment; filename="surat-${params.id}.pdf"`,
+      "Content-Disposition": `attachment; filename="surat-${id}.pdf"`,
     },
   });
 }

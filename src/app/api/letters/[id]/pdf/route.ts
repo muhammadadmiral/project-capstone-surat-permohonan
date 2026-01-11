@@ -15,7 +15,7 @@ function buildPdfBuffer(letter: {
   createdAt: Date;
   updatedAt: Date;
 }) {
-  return new Promise<Buffer>((resolve, reject) => {
+return new Promise<Buffer>((resolve, reject) => {
     const doc = new PDFDocument({ size: "A4", margin: 50 });
     const chunks: Buffer[] = [];
 
@@ -46,12 +46,15 @@ function buildPdfBuffer(letter: {
   });
 }
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+type ParamsPromise = { params: Promise<{ id: string }> };
+
+export async function GET(req: NextRequest, context: ParamsPromise) {
+  const { id } = await context.params;
   const user = await getUserFromRequest(req);
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const letter = await prisma.letter.findUnique({
-    where: { id: params.id },
+    where: { id },
   });
 
   if (!letter) return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -65,7 +68,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     status: 200,
     headers: {
       "Content-Type": "application/pdf",
-      "Content-Disposition": `attachment; filename="surat-${params.id}.pdf"`,
+      "Content-Disposition": `attachment; filename="surat-${id}.pdf"`,
     },
   });
 }
