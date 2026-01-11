@@ -60,7 +60,7 @@ async function ensureDefaultTemplates(authorId?: string) {
     where: { slug: { in: defaultTemplates.map((t) => t.slug) } },
     select: { slug: true },
   });
-  const existingSlugs = new Set(existing.map((t) => t.slug));
+  const existingSlugs = new Set(existing.map((t: { slug: string }) => t.slug));
   const missing = defaultTemplates.filter((tpl) => !existingSlugs.has(tpl.slug));
   if (missing.length === 0) return;
 
