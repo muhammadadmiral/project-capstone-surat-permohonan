@@ -3,7 +3,7 @@ import { getUserFromRequest } from "@/lib/auth";
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 
-type JsonPrimitive = string | number | boolean | null;
+type JsonPrimitive = string | number | boolean;
 type JsonValue = JsonPrimitive | JsonValue[] | { [key: string]: JsonValue };
 
 const createLetterSchema = z.object({
