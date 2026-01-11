@@ -48,7 +48,7 @@ export async function GET(req: NextRequest, context: { params: Promise<{ id: str
     if (submission.attachments.length > 0) {
       doc.moveDown();
       doc.text("Lampiran:", { underline: true });
-      submission.attachments.forEach((att) => {
+      submission.attachments.forEach((att: { publicId: string; url: string }) => {
         doc.text(`${att.publicId} - ${att.url}`);
       });
     }
