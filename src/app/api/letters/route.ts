@@ -2,7 +2,9 @@ import { prisma } from "@/lib/prisma";
 import { getUserFromRequest } from "@/lib/auth";
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
-import { Prisma } from "@prisma/client";
+
+type JsonPrimitive = string | number | boolean | null;
+type JsonValue = JsonPrimitive | JsonValue[] | { [key: string]: JsonValue };
 
 const createLetterSchema = z.object({
   title: z.string().min(3),
@@ -32,11 +34,12 @@ export async function POST(req: NextRequest) {
 
   try {
     const payload = createLetterSchema.parse(await req.json());
+    const jsonPayload = payload.payload as JsonValue | undefined;
     const letter = await prisma.letter.create({
       data: {
         ...payload,
         email: payload.email.toLowerCase(),
-        payload: payload.payload ? (payload.payload as Prisma.InputJsonValue) : undefined,
+        payload: jsonPayload,
         createdById: user.id,
       },
     });
