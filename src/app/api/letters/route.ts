@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { getUserFromRequest } from "@/lib/auth";
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
+import { Prisma } from "@prisma/client";
 
 const createLetterSchema = z.object({
   title: z.string().min(3),
@@ -10,7 +11,7 @@ const createLetterSchema = z.object({
   nim: z.string().min(3),
   email: z.string().email(),
   notes: z.string().optional(),
-  payload: z.record(z.any()).optional(),
+  payload: z.record(z.string(), z.unknown()).optional(),
 });
 
 export async function GET(req: NextRequest) {
@@ -35,6 +36,7 @@ export async function POST(req: NextRequest) {
       data: {
         ...payload,
         email: payload.email.toLowerCase(),
+        payload: payload.payload ? (payload.payload as Prisma.InputJsonValue) : undefined,
         createdById: user.id,
       },
     });

@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { getUserFromRequest } from "@/lib/auth";
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
+import { Prisma } from "@prisma/client";
 
 const updateSchema = z.object({
   title: z.string().optional(),
@@ -37,7 +38,7 @@ export async function GET(req: NextRequest, context: ParamsPromise) {
       OR: [
         { id },
         ...slugCandidates.map((slug) => ({
-          slug: { equals: slug, mode: "insensitive" },
+          slug: { equals: slug, mode: Prisma.QueryMode.insensitive },
         })),
       ],
     },

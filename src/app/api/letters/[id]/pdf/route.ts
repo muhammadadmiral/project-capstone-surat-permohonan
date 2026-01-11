@@ -64,7 +64,8 @@ export async function GET(req: NextRequest, context: ParamsPromise) {
 
   const buffer = await buildPdfBuffer(letter);
 
-  return new NextResponse(buffer, {
+  const body = new Uint8Array(buffer);
+  return new NextResponse(body, {
     status: 200,
     headers: {
       "Content-Type": "application/pdf",

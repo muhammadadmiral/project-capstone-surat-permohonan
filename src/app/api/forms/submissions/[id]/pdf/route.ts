@@ -55,7 +55,8 @@ export async function GET(req: NextRequest, context: { params: Promise<{ id: str
     doc.end();
   });
 
-  return new NextResponse(buffer, {
+  const body = new Uint8Array(buffer);
+  return new NextResponse(body, {
     status: 200,
     headers: {
       "Content-Type": "application/pdf",

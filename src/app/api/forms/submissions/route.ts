@@ -37,24 +37,32 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Judul terlalu pendek" }, { status: 400 });
     }
 
-    const normalizedAttachments =
-      Array.isArray(attachments) && attachments.length > 0
-        ? attachments
-            .map((att: any) =>
-              att && typeof att === "object" && typeof att.url === "string" && typeof att.publicId === "string"
-                ? {
-                    url: att.url,
-                    publicId: att.publicId,
-                    format: typeof att.format === "string" ? att.format : undefined,
-                    bytes: typeof att.bytes === "number" ? att.bytes : undefined,
-                    width: typeof att.width === "number" ? att.width : undefined,
-                    height: typeof att.height === "number" ? att.height : undefined,
-                    type: typeof att.type === "string" ? att.type : undefined,
-                  }
-                : null
-            )
-            .filter(Boolean)
-        : undefined;
+    type AttachmentInput = {
+      url: string;
+      publicId: string;
+      format?: string;
+      bytes?: number;
+      width?: number;
+      height?: number;
+      type?: string;
+    };
+
+    const attachmentsList = Array.isArray(attachments) ? attachments : [];
+    const normalizedAttachments = attachmentsList.reduce<AttachmentInput[]>((acc, att) => {
+      if (!att || typeof att !== "object") return acc;
+      const candidate = att as Record<string, unknown>;
+      if (typeof candidate.url !== "string" || typeof candidate.publicId !== "string") return acc;
+      acc.push({
+        url: candidate.url,
+        publicId: candidate.publicId,
+        format: typeof candidate.format === "string" ? candidate.format : undefined,
+        bytes: typeof candidate.bytes === "number" ? candidate.bytes : undefined,
+        width: typeof candidate.width === "number" ? candidate.width : undefined,
+        height: typeof candidate.height === "number" ? candidate.height : undefined,
+        type: typeof candidate.type === "string" ? candidate.type : undefined,
+      });
+      return acc;
+    }, []);
 
     const submission = await prisma.letterSubmission.create({
       data: {
